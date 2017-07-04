@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdSidenavModule } from '@angular/material';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -16,7 +19,9 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     NavBarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MdSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
