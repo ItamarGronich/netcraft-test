@@ -2,12 +2,18 @@
 <header>
   <app-header></app-header>
 
-    <app-hero></app-hero>
+  <app-hero></app-hero>
 </header>
-<aside class="SideBar-wrapper">
-  <app-side-bar></app-side-bar>
-</aside>
-<main>
-... main view here ...
 
-</main>
+<md-sidenav-container class="SideNavContainer">
+  <md-sidenav [opened]="sideNavStyle === 'side'" [mode]="sideNavStyle">
+    <app-side-bar></app-side-bar>
+
+  </md-sidenav>
+
+
+  <main>
+    ... main view here ...
+
+  </main>
+</md-sidenav-container>
