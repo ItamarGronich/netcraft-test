@@ -1,0 +1,21 @@
+<label>
+  <md-input-container>
+     <input
+      type="text"
+      name="searchUsers"
+      mdInput
+      placeholder="Type to search..."
+      [mdAutocomplete]="auto"
+      [formControl]="usersFormCtrl"
+      >
+  </md-input-container>
+
+  <md-autocomplete #auto="mdAutocomplete">
+    <md-option *ngFor="let state of filteredUsers | async" [value]="state.uName">
+      {{ state.uName }}
+    </md-option>
+  </md-autocomplete>
+
+  <button md-mini-fab color="primary"><md-icon>search</md-icon></button>
+
+</label>

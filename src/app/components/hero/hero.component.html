@@ -3,22 +3,6 @@
     Welcome to {{title}}!!
   </h1>
   <form action="">
-
-    <md-input-container>
-       <input
-        type="text"
-        name="searchUsers"
-        mdInput
-        placeholder="State"
-        [mdAutocomplete]="auto"
-        [formControl]="usersFormCtrl"
-        >
-    </md-input-container>
-
-    <md-autocomplete #auto="mdAutocomplete">
-      <md-option *ngFor="let state of filteredUsers | async" [value]="state.uName">
-        {{ state.uName }}
-      </md-option>
-    </md-autocomplete>
+    <app-autocomplete></app-autocomplete>
   </form>
 </article>
