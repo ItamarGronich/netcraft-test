@@ -4,7 +4,21 @@
   </h1>
   <form action="">
 
-    <input type="text" name="search" value="" placeholder="Type to search...">
-    <button type="submit" name="search-buttom">Search</button>
+    <md-input-container>
+       <input
+        type="text"
+        name="searchUsers"
+        mdInput
+        placeholder="State"
+        [mdAutocomplete]="auto"
+        [formControl]="usersFormCtrl"
+        >
+    </md-input-container>
+
+    <md-autocomplete #auto="mdAutocomplete">
+      <md-option *ngFor="let state of filteredUsers | async" [value]="state.uName">
+        {{ state.uName }}
+      </md-option>
+    </md-autocomplete>
   </form>
 </article>
