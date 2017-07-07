@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  template:`
+  <md-toolbar color="primary">
+    <md-nav-list color="primary">
+      <a href="#" md-list-item *ngFor="let menu of menuList"> {{ menu }}</a>
+    </md-nav-list>
+  </md-toolbar>
+  `,
+  styleUrls: [`./nav-bar.component.scss`]
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  menuList = [
+    'About',
+    'Home',
+    'Contact',
+  ];
 
 }
