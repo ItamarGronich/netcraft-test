@@ -1,4 +1,8 @@
 <aside class="SideBar-wrapper">
 
-  Side nav here...
+  <ul>
+    <li *ngFor="let user of usersObservable | async">
+      <app-user [user]="user"></app-user>
+    </li>
+  </ul>
 </aside>

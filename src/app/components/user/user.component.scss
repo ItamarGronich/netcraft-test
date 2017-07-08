@@ -1,0 +1,27 @@
+@import '../../../assets/sass/colors';
+
+a {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  transition: all 150ms ease-in;
+  padding: 0.5rem;
+
+  margin-right: 8px;
+
+  &:hover {
+    background: rgba(200,200,200,0.2);
+  }
+}
+
+.User-mediaRight {
+  padding-left: 10px;
+}
+
+.User-lName {
+  color: darken($grey_primary, 10%);
+}
+
+.User-info {
+  color: $grey_primary;
+}

@@ -1,5 +1,7 @@
 export interface IUser {
-  uName: string;
-  fName: string;
-  lName: string;
+  name: string;
+  profile_image_url: string;
+  statuses_count: number;
+  followers_count: number;
+  location: string;
 }
