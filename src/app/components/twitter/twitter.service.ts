@@ -6,8 +6,6 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TwitterService {
 
-  oAuth: string;
-
   constructor(private http: Http) { }
 
   get(path, params) {
@@ -16,7 +14,4 @@ export class TwitterService {
     return this.http.get(url, { params: params})
      .map( res => JSON.parse(res.json()));
   }
-
-
-
 }

@@ -18,7 +18,7 @@ export class AutocompleteComponent implements OnInit {
 
   usersFormCtrl: FormControl;
   filteredUsers: any;
-
+  currentUsers: IUser[];
 
   constructor(private userService: UserService) {
     this.usersFormCtrl = new FormControl();
@@ -30,6 +30,11 @@ export class AutocompleteComponent implements OnInit {
         .debounceTime(250) // Throttle user input.
         .map(name => this.filterUsers(name)) // Get filtered users {Observable}.
         .concatAll() // filterUsers returns an Observable.
+        .map( users => {
+          this.currentUsers = users; // Store all 20.
+          return users.slice(0,10);// limit to 10 in autocomplete.
+        })
+
   }
 
   /**
@@ -39,7 +44,11 @@ export class AutocompleteComponent implements OnInit {
    */
   filterUsers(filter: string) : Observable<IUser[]> {
     // Fire get request. Returns an Observable.
-    return this.userService.getUsers(filter, 10);
+    return this.userService.getUsers(filter, 20);
+  }
+
+  streamUsers(users: IUser[]) {
+    this.userService.streamUsers(users)
   }
 
   ngOnInit() {

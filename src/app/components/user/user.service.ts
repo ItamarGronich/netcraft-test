@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import { TwitterService } from '../twitter/twitter.service';
-import _  from 'lodash';
+import { Subject } from 'rxjs/Subject';
+import { IUser } from './user';
+import { Observable } from 'rxjs/Observable';
+import _ from 'lodash';
+
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
 
-  constructor(private twitter: TwitterService) {
+  // Observable string sources
+  private usersSource = new Subject<any>();
 
-  }
+  // Observable string streams.
+  userStream = this.usersSource.asObservable();
+
+  constructor(private twitter: TwitterService) { }
 
   /**
    * Get users with an optional filter.
@@ -18,11 +27,20 @@ export class UserService {
    * @return {Observable}
    * Returns an Observable of users request.
    */
-  getUsers(filter: string, limit: number) {
+  getUsers(filter: string, limit: number) : Observable<IUser[]> {
     const
       path = 'users/search.json',
-      params = _.pickBy({ q: filter , count: limit}, e => e);
+      params = _.pickBy({ q: filter , count: limit }, e => e);
 
     return this.twitter.get(path, params);
+  }
+
+  /**
+   * Push a new users array up the usersStream.
+   *
+   * @param {IUser[]} newUsers - A new users array to push into the stream.
+   */
+  streamUsers(newUsers: IUser[]) {
+    this.usersSource.next(newUsers);
   }
 }
