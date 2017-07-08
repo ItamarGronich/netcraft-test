@@ -4,4 +4,5 @@ export interface IUser {
   statuses_count: number;
   followers_count: number;
   location: string;
+  id_str: string;
 }

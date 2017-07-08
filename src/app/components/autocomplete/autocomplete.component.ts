@@ -32,7 +32,7 @@ export class AutocompleteComponent implements OnInit {
         .debounceTime(250) // Throttle user input.
         .map(name => {
           this.currentSearchQuery = name;
-          return this.filterUsers(name)
+          return this.filterUsers(name);
         }) // Get filtered users {Observable}.
         .concatAll() // filterUsers returns an Observable.
         .map( users => {
@@ -54,7 +54,7 @@ export class AutocompleteComponent implements OnInit {
 
   streamContent(users: IUser[]) {
     this.userService.streamUsers(users);
-    this.tweetService.getTweets(this.currentSearchQuery, 50)
+    this.tweetService.getTweets({q: this.currentSearchQuery, count: 50})
       .subscribe(data => this.tweetService.streamTweets(data));
   }
 

@@ -12,11 +12,7 @@ app.get('/*', (req, res, next) => {
     query = req.query;
 
   // Search twitter if query exists
-  if (query.q) {
-    twitter('/' + path, query).then( resData => res.json(resData) );
-  } else {
-    res.json("[]");
-  }
+  twitter('/' + path, query).then( resData => res.json(resData) );
 });
 
 app.listen(3001, function () {

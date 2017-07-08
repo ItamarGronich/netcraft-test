@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TwitterService } from '../twitter/twitter.service';
 import { Subject } from 'rxjs/Subject';
 import { IUser } from './user';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import _ from 'lodash';
 
 import 'rxjs/add/operator/map';
@@ -32,7 +32,8 @@ export class UserService {
       path = 'users/search.json',
       params = _.pickBy({ q: filter , count: limit }, e => e);
 
-    return this.twitter.get(path, params);
+    // no sense to send get user request without query.
+    return params.q ? this.twitter.get(path, params) : Observable.of([]);
   }
 
   /**

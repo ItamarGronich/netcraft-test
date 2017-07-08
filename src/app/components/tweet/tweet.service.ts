@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { TwitterService } from '../twitter/twitter.service';
 import { Subject } from 'rxjs/Subject';
 import { ITweet } from './tweet';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import _ from 'lodash';
-
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TweetService {
@@ -14,13 +12,22 @@ export class TweetService {
 
   // Observable string streams.
   tweetStream = this.tweetsSource.asObservable();
-  nextResults : string;
-  PATH: string;
+  nextResults: any;
+  PATH: object;
+  userId: number;
 
-  constructor(private twitter: TwitterService) { }
+  constructor(private twitter: TwitterService) {
+    this.nextResults = {
+      fn: () => null,
+      query: ''
+    }
+  }
 
   static get PATH() {
-    return 'search/tweets.json'
+    return {
+      SEARCH_TWEETS: 'search/tweets.json',
+      USER_TWEETS: 'statuses/user_timeline.json'
+    }
   }
 
   /**
@@ -32,10 +39,25 @@ export class TweetService {
    * @return {Observable}
    * Returns an Observable of tweets request.
    */
-  getTweets(filter: string, limit: number, maxId: string = null) : Observable<ITweet[]> {
-    const params = _.pickBy({ q: filter , count: limit, maxId: maxId}, e => e);
+  getTweets(paramsObj): Observable<ITweet[]> {
 
-    return this.twitter.get(TweetService.PATH, params);
+    const params = _.pickBy(paramsObj, e => e);
+    this.nextResults.fn = this.getTweets;
+    return this.twitter.get(TweetService.PATH.SEARCH_TWEETS, params);
+  }
+
+  getUserTweets(params) {
+    if (params.user_id) {
+      this.userId = params.user_id;
+      this.nextResults.fn = this.getUserTweets;
+      return this.twitter.get(TweetService.PATH.USER_TWEETS, params);
+    } else if (this.userId) {
+      params.user_id = this.userId;
+      this.nextResults.fn = this.getUserTweets;
+      return this.twitter.get(TweetService.PATH.USER_TWEETS, params);
+    } else {
+      return Observable.of([]);
+    }
   }
 
   /**
@@ -44,11 +66,26 @@ export class TweetService {
    * @param {Itweet[]} newtweets - A new tweets array to push into the stream.
    */
   streamTweets(newTweets: any) {
-    this.nextResults = newTweets.search_metadata.next_results;
-    this.tweetsSource.next(newTweets.statuses);
+    if (newTweets.search_metadata) {
+      this.nextResults.query = newTweets.search_metadata.next_results;
+      this.tweetsSource.next(newTweets.statuses);
+    } else {
+      const genNewTweets = {
+        'statuses' : newTweets,
+        'search_metadata' : {
+          next_results : `?max_id=${newTweets.slice(-1).pop().id_str}`
+        }
+      };
+
+      this.streamTweets(genNewTweets);
+    }
   }
 
   getNextResults() {
-    return this.twitter.get( (TweetService.PATH + this.nextResults) );
+    const { fn, query } = this.nextResults;
+
+    const params = {};
+    query.slice(1).split('&').forEach(q => { q = q.split('='); return params[q[0]] = q[1] });
+    return fn.call(this, params);
   }
 }
