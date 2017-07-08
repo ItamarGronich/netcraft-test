@@ -10,10 +10,17 @@ import { Observable } from 'rxjs/Observable';
 })
 export class MainComponent implements OnInit {
 
-  tweetsObservable : Observable<ITweet[]>
+  tweetsObservable : Observable<ITweet[]>;
+  nextResults : string;
 
   constructor(private tweetService: TweetService) {
     this.tweetsObservable = this.tweetService.tweetStream;
+
+    this.tweetsObservable.subscribe( () => this.nextResults = this.tweetService.nextResults );
+  }
+
+  getNextResults() {
+    this.tweetService.getNextResults().subscribe( res => this.tweetService.streamTweets(res));
   }
 
   ngOnInit() {

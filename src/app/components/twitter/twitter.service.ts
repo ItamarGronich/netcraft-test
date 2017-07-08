@@ -8,7 +8,7 @@ export class TwitterService {
 
   constructor(private http: Http) { }
 
-  get(path, params) {
+  get(path, params = {}) {
     const url = 'http://localhost:3001/' + path;
 
     return this.http.get(url, { params: params})

@@ -3,3 +3,6 @@
     <app-tweet [tweet]="tweet"></app-tweet>
   </li>
 </ul>
+
+
+<button *ngIf="nextResults" md-raised-button color="primary" (click)="getNextResults()">Load more tweets</button>

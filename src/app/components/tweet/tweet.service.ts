@@ -14,9 +14,14 @@ export class TweetService {
 
   // Observable string streams.
   tweetStream = this.tweetsSource.asObservable();
-  max_id : number;
+  nextResults : string;
+  PATH: string;
 
   constructor(private twitter: TwitterService) { }
+
+  static get PATH() {
+    return 'search/tweets.json'
+  }
 
   /**
    * Get tweets with an optional filter.
@@ -27,12 +32,10 @@ export class TweetService {
    * @return {Observable}
    * Returns an Observable of tweets request.
    */
-  getTweets(filter: string, limit: number) : Observable<ITweet[]> {
-    const
-      path = 'search/tweets.json',
-      params = _.pickBy({ q: filter , count: limit, max_id: this.max_id}, e => e);
+  getTweets(filter: string, limit: number, maxId: string = null) : Observable<ITweet[]> {
+    const params = _.pickBy({ q: filter , count: limit, maxId: maxId}, e => e);
 
-    return this.twitter.get(path, params);
+    return this.twitter.get(TweetService.PATH, params);
   }
 
   /**
@@ -41,8 +44,11 @@ export class TweetService {
    * @param {Itweet[]} newtweets - A new tweets array to push into the stream.
    */
   streamTweets(newTweets: any) {
-    const lastTweet = newTweets.statuses.slice(-1).pop();
-    this.max_id = lastTweet ? lastTweet.id_str : null;
+    this.nextResults = newTweets.search_metadata.next_results;
     this.tweetsSource.next(newTweets.statuses);
+  }
+
+  getNextResults() {
+    return this.twitter.get( (TweetService.PATH + this.nextResults) );
   }
 }
