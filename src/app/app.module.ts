@@ -16,6 +16,9 @@ import { UserComponent } from './components/user/user.component';
 import { UserService } from './components/user/user.service';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { TwitterService } from './components/twitter/twitter.service';
+import { TweetComponent } from './components/tweet/tweet.component';
+import { TweetService } from './components/tweet/tweet.service';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { TwitterService } from './components/twitter/twitter.service';
     HeroComponent,
     NavBarComponent,
     UserComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    TweetComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,7 @@ import { TwitterService } from './components/twitter/twitter.service';
     MdInputModule,
     MdButtonModule
   ],
-  providers: [ UserService, TwitterService ],
+  providers: [ UserService, TwitterService, TweetService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

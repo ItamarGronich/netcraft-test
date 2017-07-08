@@ -1,0 +1,17 @@
+<md-card class="Tweet">
+  <md-card-header>
+    <div md-card-avatar class="Tweet-userImage">
+      <img src="{{tweet.user.profile_image_url}}" alt="">
+    </div>
+    <md-card-title>{{tweet.user.name}}</md-card-title>
+    <md-card-subtitle>{{tweet.user.screen_name}}</md-card-subtitle>
+  </md-card-header>
+  <section md-card-image  *ngIf="media">
+    <img *ngFor="let image of media" src="{{image}}">
+  </section>
+  <md-card-content>
+    <p>
+      {{tweet.text}}
+    </p>
+  </md-card-content>
+</md-card>

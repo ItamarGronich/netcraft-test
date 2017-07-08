@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let tweet of tweetsObservable | async">
+    <app-tweet [tweet]="tweet"></app-tweet>
+  </li>
+</ul>
