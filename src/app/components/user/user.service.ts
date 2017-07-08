@@ -1,30 +1,28 @@
 import { Injectable } from '@angular/core';
-import { USERS } from '../../../mock-data/users.mock';
-import { IUser } from './user';
-import { Observable } from 'rxjs';
+import { TwitterService } from '../twitter/twitter.service';
+import _  from 'lodash';
 
 @Injectable()
 export class UserService {
 
-  constructor() {
+  constructor(private twitter: TwitterService) {
 
   }
 
   /**
    * Get users with an optional filter.
    *
-   * @param {string} filter - String to filter the users by.
+   * @param {String} filter - String to filter the users by.
+   * @param {Integer} limit - Limit to how many users to fetch.
    *
    * @return {Observable}
-   * Returns an Observable of users like the HTTP would.
+   * Returns an Observable of users request.
    */
-  getUsers(filter: string) : Observable<IUser[]> {
-    let data = USERS;
+  getUsers(filter: string, limit: number) {
+    const
+      path = 'users/search.json',
+      params = _.pickBy({ q: filter , count: limit}, e => e);
 
-    if (filter) {
-      data = data.filter(user => user.uName.includes(filter));
-    }
-
-    return Observable.of(data);
+    return this.twitter.get(path, params);
   }
 }

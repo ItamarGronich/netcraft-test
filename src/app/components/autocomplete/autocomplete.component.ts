@@ -39,7 +39,7 @@ export class AutocompleteComponent implements OnInit {
    */
   filterUsers(filter: string) : Observable<IUser[]> {
     // Fire get request. Returns an Observable.
-    return this.userService.getUsers(filter);
+    return this.userService.getUsers(filter, 10);
   }
 
   ngOnInit() {

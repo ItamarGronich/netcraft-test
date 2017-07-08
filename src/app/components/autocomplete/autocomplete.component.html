@@ -12,7 +12,7 @@
 
   <md-autocomplete #auto="mdAutocomplete">
     <md-option *ngFor="let state of filteredUsers | async" [value]="state.uName">
-      {{ state.uName }}
+      {{ state.name }}
     </md-option>
   </md-autocomplete>
 

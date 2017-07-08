@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpModule } from '@angular/http';
 import { MaterialModule, MdSidenavModule, MdInputModule, MdButtonModule } from '@angular/material';
 import 'hammerjs';
 import '@angular/material/prebuilt-themes/deeppurple-amber.css';
@@ -14,6 +15,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { UserComponent } from './components/user/user.component';
 import { UserService } from './components/user/user.service';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { TwitterService } from './components/twitter/twitter.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -35,7 +38,7 @@ import { AutocompleteComponent } from './components/autocomplete/autocomplete.co
     MdInputModule,
     MdButtonModule
   ],
-  providers: [ UserService ],
+  providers: [ UserService, TwitterService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
